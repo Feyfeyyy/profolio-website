@@ -14,7 +14,7 @@ export default function Home() {
           priority
         />
         <div className={styles.intro}>
-          <h1>
+          <h1 className="text-balance">
             To get started, edit the{" "}
             <code className={styles.code}>page.tsx</code> file.
           </h1>
