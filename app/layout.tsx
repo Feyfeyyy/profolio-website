@@ -28,9 +28,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${pacifico.variable} ${exo.variable} ${honk.variable}`}
+      className={`${pacifico.variable} ${exo.variable} ${honk.variable} h-full`}
     >
-      <body>{children}</body>
+      <body className="flex min-h-full flex-col bg-paper font-sans text-ink antialiased">
+        {children}
+      </body>
     </html>
   );
 }
