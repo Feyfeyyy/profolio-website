@@ -14,12 +14,20 @@ export default function LandingPage() {
         <p className="sml-bio mt-8">
           I am passionate about creating cool projects and learning new things!
         </p>
-        <Link
-          href="/about"
-          className="mt-12 w-fit text-sm font-medium underline decoration-ink/25 underline-offset-4 transition hover:decoration-ink"
-        >
-          About me
-        </Link>
+        <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
+          <Link
+            href="/projects"
+            className="w-fit text-sm font-medium underline decoration-ink/25 underline-offset-4 transition hover:decoration-ink"
+          >
+            Projects
+          </Link>
+          <Link
+            href="/about"
+            className="w-fit text-sm font-medium underline decoration-ink/25 underline-offset-4 transition hover:decoration-ink"
+          >
+            About me
+          </Link>
+        </div>
       </main>
       <SiteFooter />
     </>
