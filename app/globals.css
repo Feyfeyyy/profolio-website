@@ -7,49 +7,40 @@
   --color-paper: #f6f5f2;
   --color-ink: #141413;
   --color-line: #e4e1db;
-  --shadow-card: 0 0 0 0 transparent;
-  --shadow-image: 0 0 0 0 transparent;
-  --animate-wave: wave 2.4s ease-in-out infinite;
+  --animate-rise: rise 0.45s ease both;
+  --animate-flick: flick 0.35s ease both;
+  --animate-toast: toast 0.45s ease both;
 
-  @keyframes wave {
-    0%,
-    60%,
-    100% {
-      transform: rotate(0deg);
+  @keyframes flick {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
     }
-    20% {
-      transform: rotate(16deg);
-    }
-    40% {
-      transform: rotate(-8deg);
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
-}
 
-@utility card {
-  @apply flex min-w-0 flex-col gap-6 text-left;
-}
+  @keyframes toast {
+    from {
+      opacity: 0;
+      transform: translateX(120%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 
-@utility box {
-  @apply grid w-full gap-16;
-}
-
-@utility spinner-img {
-  @apply h-full w-full object-cover;
-}
-
-@utility sml-bio {
-  @apply max-w-md font-display text-2xl leading-snug text-ink/80;
-}
-
-@utility intr {
-  @apply text-sm leading-relaxed text-ink/55;
-}
-
-@utility msg {
-  @apply text-sm text-ink;
-}
-
-@utility ftr {
-  @apply text-sm text-ink/50;
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
