@@ -25,9 +25,15 @@ export default function TwoTruths() {
       <div className="lg:col-span-4">
         <p className="text-xs tracking-[0.18em] text-ink/40 uppercase">01</p>
         <h2 className="mt-3 text-3xl font-medium tracking-tight">
-          Two truths, one lie
+          Two Truths, One Lie
         </h2>
-        <p className="intr mt-3">Pick the statement you think is the lie.</p>
+        <p className="intr mt-3">
+          ( Click on the one you think is a lie,{" "}
+          <strong className="font-medium text-ink/70">
+            if it turns green you are correct
+          </strong>
+          )
+        </p>
       </div>
       <ul className="border-t border-line lg:col-span-8">
         {statements.map((statement, index) => {

@@ -19,7 +19,10 @@ const honk = Honk({
 });
 
 export const metadata: Metadata = {
-  title: "Feyaaz Chishty",
+  title: {
+    default: "Feyaaz Chishty",
+    template: "%s · Feyaaz Chishty",
+  },
   description:
     "Portfolio of Feyaaz Chishty. Projects and things I am learning.",
 };
