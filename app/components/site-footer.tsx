@@ -21,8 +21,8 @@ const socials = [
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-line px-6 py-6">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6">
+    <footer className="border-t border-line px-4 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
         <p className="text-sm text-ink/50">© 2024 Feyaaz Chishty</p>
         <ul className="flex items-center gap-3">
           {socials.map((social) => (
@@ -32,7 +32,7 @@ export default function SiteFooter() {
                 aria-label={social.label}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink transition duration-200 hover:-translate-y-0.5 hover:border-ink hover:bg-ink hover:text-paper"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition duration-200 hover:-translate-y-0.5 hover:border-ink hover:bg-ink hover:text-paper"
               >
                 {social.icon}
               </a>

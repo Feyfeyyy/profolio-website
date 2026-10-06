@@ -3,16 +3,10 @@ export type Project = {
   summary: string;
   stack: string[];
   href: string;
+  image?: string;
 };
 
 export const projects: Project[] = [
-  {
-    name: "Portfolio",
-    summary:
-      "This site. A Next.js portfolio with a landing page, an about page, and a place to show the work.",
-    stack: ["Next.js", "TypeScript", "Tailwind"],
-    href: "https://github.com/Feyfeyyy/profolio-website",
-  },
   {
     name: "Smart Elevator",
     summary:
@@ -40,6 +34,7 @@ export const projects: Project[] = [
       "A platform where book lovers can create an account, upload books, and read what is on the shelf.",
     stack: ["Python", "Flask", "AWS S3"],
     href: "https://github.com/Feyfeyyy/up-book",
+    image: "/projects/up-book.png",
   },
   {
     name: "Sport Data Parser",

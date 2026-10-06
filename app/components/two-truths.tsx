@@ -43,20 +43,21 @@ export default function TwoTruths({ onEarn }: { onEarn?: () => void }) {
   return (
     <>
     {toast ? <Toast>Congratulations, you found the lie.</Toast> : null}
-    <ul className="flex flex-col gap-3 rounded-3xl border border-line bg-white/70 p-6 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8">
+    <ul className="flex flex-col gap-3 rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8 dark:shadow-none">
         {statements.map((statement, index) => {
           const selected = picked.includes(index);
           const tone = selected
             ? statement.lie
-              ? "border-green-700/30 bg-green-700/5 text-green-700"
-              : "border-red-600/30 bg-red-600/5 text-red-600 line-through"
-            : "border-line text-ink hover:-translate-y-0.5 hover:border-ink/30";
+              ? "border-green-700/30 bg-green-700/5 text-green-700 dark:border-green-400/40 dark:bg-green-400/10 dark:text-green-300"
+              : "border-red-600/30 bg-red-600/5 text-red-600 line-through dark:border-red-400/40 dark:bg-red-400/10 dark:text-red-300"
+            : "border-line text-ink hover:-translate-y-0.5 hover:border-ink/30 dark:bg-black/35";
 
           return (
             <li key={statement.text}>
               <button
                 type="button"
                 className={`flex w-full items-baseline gap-4 rounded-2xl border px-4 py-4 text-left text-base leading-relaxed transition duration-200 ${tone}`}
+                aria-pressed={selected}
                 onClick={() => mark(index)}
               >
                 <span className="w-6 shrink-0 text-xs text-ink/35 no-underline">

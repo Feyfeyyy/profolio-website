@@ -4,12 +4,13 @@
   --font-sans: var(--font-exo);
   --font-display: var(--font-pacifico);
   --font-footer: var(--font-honk);
-  --color-paper: #f6f5f2;
-  --color-ink: #141413;
-  --color-line: #e4e1db;
   --animate-rise: rise 0.45s ease both;
   --animate-flick: flick 0.35s ease both;
   --animate-toast: toast 0.45s ease both;
+  --animate-drawer: drawer 0.35s ease both;
+  --animate-drawer-out: drawer-out 0.35s ease both;
+  --animate-blink: blink 1.1s steps(1) infinite;
+  --animate-bob: bob 1.4s ease-in-out infinite;
 
   @keyframes flick {
     from {
@@ -33,6 +34,40 @@
     }
   }
 
+  @keyframes drawer {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes drawer-out {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(0.35rem);
+    }
+  }
+
   @keyframes rise {
     from {
       opacity: 0;
@@ -42,5 +77,29 @@
       opacity: 1;
       transform: none;
     }
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-paper: #f6f5f2;
+  --color-ink: #141413;
+  --color-line: #e4e1db;
+  --color-card: #ffffff;
+}
+
+.dark {
+  --color-paper: #161615;
+  --color-ink: #f3f1ea;
+  --color-line: #4a4843;
+  --color-card: #262624;
+  color-scheme: dark;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
   }
 }

@@ -22,37 +22,37 @@ const formBadges = [
   {
     id: "truths",
     label: "Facts badge",
-    tone: "bg-[#efe8d8] text-ink",
+    tone: "bg-[#efe8d8] text-[#141413]",
     ribbon: "fill-[#8d7048]",
-    caption: "text-paper",
+    caption: "text-[#f6f5f2]",
   },
   {
     id: "hello",
     label: "Hello badge",
     tone: "bg-[#f8e8e4] text-red-700",
     ribbon: "fill-red-700",
-    caption: "text-paper",
+    caption: "text-[#f6f5f2]",
   },
   {
     id: "quiz",
     label: "Movies badge",
-    tone: "bg-ink text-paper",
+    tone: "bg-[#141413] text-[#f6f5f2]",
     ribbon: "fill-[#cfc6b8]",
-    caption: "text-ink",
+    caption: "text-[#141413]",
   },
   {
     id: "cities",
     label: "Travel badge",
     tone: "bg-[#e5f0e8] text-green-800",
     ribbon: "fill-green-800",
-    caption: "text-paper",
+    caption: "text-[#f6f5f2]",
   },
   {
     id: "tune",
     label: "Music badge",
-    tone: "bg-paper text-ink",
-    ribbon: "fill-ink",
-    caption: "text-paper",
+    tone: "bg-[#f6f5f2] text-[#141413]",
+    ribbon: "fill-[#141413]",
+    caption: "text-[#f6f5f2]",
   },
 ] as const;
 
@@ -69,9 +69,9 @@ export default function AboutPlay() {
   return (
     <div>
     <div
-      className={`mb-16 rounded-3xl px-6 py-8 sm:px-10 ${earned.length === 0 ? "border border-dashed border-ink/15 bg-transparent" : "border border-line bg-white/70 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)]"}`}
+      className={`mb-10 rounded-3xl px-4 py-6 sm:mb-16 sm:px-10 sm:py-8 ${earned.length === 0 ? "border border-dashed border-ink/15 bg-transparent dark:border-ink/40" : "border border-line bg-card shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] dark:shadow-none"}`}
     >
-      <div className={`mb-6 flex items-baseline justify-between border-b pb-4 ${earned.length === 0 ? "border-dashed border-ink/15" : "border-line"}`}>
+      <div className={`mb-6 flex items-baseline justify-between border-b pb-4 ${earned.length === 0 ? "border-dashed border-ink/15 dark:border-ink/40" : "border-line"}`}>
         <p className="text-xs font-medium tracking-[0.22em] text-ink/45 uppercase">
           Medals
         </p>
@@ -79,13 +79,13 @@ export default function AboutPlay() {
           {earned.length} of {formBadges.length}
         </p>
       </div>
-      <ul aria-label="Medals" className="group/medals flex flex-wrap items-start justify-center gap-x-8 gap-y-6">
+      <ul aria-label="Medals" className="group/medals flex flex-wrap items-start justify-center gap-x-4 gap-y-6 sm:gap-x-8">
         {formBadges.map((badge) => (
           <Badge
             key={badge.id}
             {...badge}
             earned={earned.includes(badge.id)}
-            className="origin-center transition duration-200 group-hover/medals:opacity-40 hover:z-10 hover:-translate-y-1 hover:scale-110 hover:!opacity-100 hover:drop-shadow-[0_16px_18px_rgba(20,20,19,0.18)]"
+            className="origin-center transition duration-200 [@media(hover:hover)]:group-hover/medals:opacity-40 hover:z-10 hover:-translate-y-1 hover:scale-110 [@media(hover:hover)]:hover:!opacity-100 hover:drop-shadow-[0_16px_18px_rgba(20,20,19,0.18)]"
           />
         ))}
       </ul>
@@ -123,7 +123,7 @@ export default function AboutPlay() {
           </p>
         ) : null}
       </div>
-      <div className="md:col-span-8">
+      <div className="mt-8 md:col-span-8 md:mt-0">
       <div role="tablist" aria-label="Interactive forms" className="flex flex-wrap gap-2">
         {tabs.map((item) => {
           const selected = tab === item.id;
@@ -138,8 +138,8 @@ export default function AboutPlay() {
               aria-controls={`play-panel-${item.id}`}
               className={
                 selected
-                  ? "rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper"
-                  : "rounded-full px-4 py-2 text-sm text-ink/45 transition hover:text-ink"
+                  ? "inline-flex min-h-11 items-center rounded-full bg-ink px-4 text-sm font-medium text-paper"
+                  : "inline-flex min-h-11 items-center rounded-full px-4 text-sm text-ink/45 transition hover:text-ink"
               }
               onClick={() => setTab(item.id)}
             >
