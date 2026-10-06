@@ -11,11 +11,17 @@ const links = [
 export default function SiteHeader() {
   const pathname = usePathname();
 
+  const home = pathname === "/";
+
   return (
-    <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 text-sm">
-      <Link href="/" className="font-medium">
-        Feyaaz Chishty
-      </Link>
+    <header
+      className={`mx-auto flex w-full max-w-6xl items-center px-6 py-6 text-sm ${home ? "justify-end" : "justify-between"}`}
+    >
+      {home ? null : (
+        <Link href="/" className="font-medium">
+          Feyaaz Chishty
+        </Link>
+      )}
       <nav className="flex items-center gap-6">
         {links.map((link) => {
           const current = pathname === link.href;

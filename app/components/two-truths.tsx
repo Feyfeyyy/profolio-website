@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Toast from "./toast";
 
 const statements = [
   {
@@ -17,52 +18,53 @@ const statements = [
   },
 ];
 
-export default function TwoTruths() {
+export default function TwoTruths({ onEarn }: { onEarn?: () => void }) {
   const [picked, setPicked] = useState<number[]>([]);
+  const [toast, setToast] = useState(false);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timeout = window.setTimeout(() => {
+      setPicked([]);
+      setToast(false);
+    }, 1600);
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
 
   function mark(index: number) {
-    setPicked((current) =>
-      current.includes(index) ? current : [...current, index],
-    );
+    if (toast || picked.includes(index)) return;
+    setPicked((current) => [...current, index]);
+    if (statements[index].lie) {
+      setToast(true);
+      onEarn?.();
+    }
   }
 
   return (
-    <section className="card lg:grid lg:grid-cols-12 lg:gap-10">
-      <div className="lg:col-span-4">
-        <p className="text-xs tracking-[0.18em] text-ink/40 uppercase">01</p>
-        <h2 className="mt-3 text-3xl font-medium tracking-tight">
-          Two Truths, One Lie
-        </h2>
-        <p className="intr mt-3">
-          ( Click on the one you think is a lie,{" "}
-          <strong className="font-medium text-ink/70">
-            if it turns green you are correct
-          </strong>
-          )
-        </p>
-      </div>
-      <ul className="border-t border-line lg:col-span-8">
+    <>
+    {toast ? <Toast>Congratulations, you found the lie.</Toast> : null}
+    <ul className="flex flex-col gap-3 rounded-3xl border border-line bg-white/70 p-6 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8">
         {statements.map((statement, index) => {
           const selected = picked.includes(index);
           const tone = selected
             ? statement.lie
-              ? "text-green-700"
-              : "text-red-600 line-through"
-            : "text-ink hover:text-ink/70";
+              ? "border-green-700/30 bg-green-700/5 text-green-700"
+              : "border-red-600/30 bg-red-600/5 text-red-600 line-through"
+            : "border-line text-ink hover:-translate-y-0.5 hover:border-ink/30";
 
           return (
-            <li key={statement.text} className="border-b border-line">
+            <li key={statement.text}>
               <button
                 type="button"
-                className={`flex w-full items-baseline gap-4 py-5 text-left text-base leading-relaxed transition ${tone}`}
+                className={`flex w-full items-baseline gap-4 rounded-2xl border px-4 py-4 text-left text-base leading-relaxed transition duration-200 ${tone}`}
                 onClick={() => mark(index)}
               >
-                <span className="w-6 shrink-0 text-xs text-ink/35">
+                <span className="w-6 shrink-0 text-xs text-ink/35 no-underline">
                   0{index + 1}
                 </span>
                 <span>{statement.text}</span>
                 {selected && statement.lie ? (
-                  <span className="ml-auto shrink-0 text-xs tracking-wide text-green-700 uppercase no-underline">
+                  <span className="ml-auto shrink-0 rounded-full bg-green-700 px-3 py-1 text-xs tracking-wide text-white uppercase no-underline">
                     Lie
                   </span>
                 ) : null}
@@ -70,7 +72,7 @@ export default function TwoTruths() {
             </li>
           );
         })}
-      </ul>
-    </section>
+    </ul>
+    </>
   );
 }

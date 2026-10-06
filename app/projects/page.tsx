@@ -16,7 +16,7 @@ export default function ProjectsPage() {
           <h1 className="mt-4 max-w-xl text-5xl leading-[0.95] font-medium tracking-tight text-balance sm:text-7xl">
             Projects
           </h1>
-          <p className="sml-bio mt-6">
+          <p className="mt-6 max-w-md font-display text-2xl leading-snug text-ink/80">
             Things I have built while learning new tools.
           </p>
         </section>
