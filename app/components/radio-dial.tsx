@@ -68,7 +68,7 @@ export default function RadioDial({ onEarn }: { onEarn?: () => void }) {
     <>
       {toast ? <Toast>You tuned every station.</Toast> : null}
       <form
-        className="rounded-3xl border border-line bg-white/70 p-6 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8"
+        className="rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8 dark:shadow-none"
         onSubmit={(event) => event.preventDefault()}
       >
         <div className="flex items-end justify-between gap-4">
@@ -104,7 +104,7 @@ export default function RadioDial({ onEarn }: { onEarn?: () => void }) {
               />
               <a
                 href={`https://www.youtube.com/watch?v=${locked.video}`}
-                className="mt-3 inline-block text-sm font-medium underline decoration-ink/25 underline-offset-4 transition hover:decoration-ink"
+                className="mt-3 inline-flex min-h-11 items-center text-sm font-medium underline decoration-ink/25 underline-offset-4 transition hover:decoration-ink"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -115,7 +115,7 @@ export default function RadioDial({ onEarn }: { onEarn?: () => void }) {
             <p className="text-sm text-ink/35">Static. Keep turning.</p>
           )}
         </div>
-        <label className="mt-8 block">
+        <label className="mt-6 block py-3">
           <span className="sr-only">Tune the radio</span>
           <input
             type="range"
@@ -125,11 +125,11 @@ export default function RadioDial({ onEarn }: { onEarn?: () => void }) {
             step={0.1}
             value={freq}
             aria-valuetext={locked ? `${locked.genre}, ${locked.title}` : "Static"}
-            className="w-full accent-ink"
+            className="h-11 w-full accent-ink"
             onChange={(event) => tune(Number(event.target.value))}
           />
         </label>
-        <div className="mt-3 grid grid-cols-4 gap-2 text-center text-[10px] leading-tight tracking-wide text-ink/35">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-center text-xs leading-tight tracking-wide text-ink/35 sm:grid-cols-4">
           {stations.map((station) => (
             <span
               key={station.id}

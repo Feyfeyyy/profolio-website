@@ -10,7 +10,7 @@ const stickers = [
     label: "New York",
     statement: "Tour guided 80 strangers here.",
     rotate: "-rotate-6",
-    tone: "bg-[#efe8d8] text-ink",
+    tone: "bg-[#efe8d8] text-[#141413]",
   },
   {
     id: "london",
@@ -24,54 +24,54 @@ const stickers = [
     label: "Tokyo",
     statement: "A crossing that never stops.",
     rotate: "-rotate-3",
-    tone: "bg-ink text-paper",
+    tone: "bg-[#141413] text-[#f6f5f2]",
   },
   {
     id: "bangkok",
     label: "Bangkok",
     statement: "Boats on the Chao Phraya.",
     rotate: "rotate-[7deg]",
-    tone: "bg-green-700/10 text-green-800",
+    tone: "bg-[#e5f0e8] text-green-800",
   },
 ] as const;
 
 type StickerId = (typeof stickers)[number]["id"];
 
 const places = [
-  "left-[7%] top-[8%]",
-  "right-[7%] top-[12%]",
-  "left-[12%] bottom-[8%]",
-  "right-[10%] bottom-[8%]",
+  "sm:left-[7%] sm:top-[8%]",
+  "sm:right-[7%] sm:top-[12%]",
+  "sm:left-[12%] sm:bottom-[8%]",
+  "sm:right-[10%] sm:bottom-[8%]",
 ] as const;
 
 const badges = [
   {
     id: "city",
     label: "City badge",
-    tone: "bg-[#efe8d8] text-ink",
+    tone: "bg-[#efe8d8] text-[#141413]",
     ribbon: "fill-[#8d7048]",
-    caption: "text-paper",
+    caption: "text-[#f6f5f2]",
   },
   {
     id: "navigator",
     label: "Navigator badge",
     tone: "bg-[#f8e8e4] text-red-700",
     ribbon: "fill-red-700",
-    caption: "text-paper",
+    caption: "text-[#f6f5f2]",
   },
   {
     id: "atlas",
     label: "Atlas badge",
-    tone: "bg-ink text-paper",
+    tone: "bg-[#141413] text-[#f6f5f2]",
     ribbon: "fill-[#cfc6b8]",
-    caption: "text-ink",
+    caption: "text-[#141413]",
   },
   {
     id: "world",
     label: "World badge",
     tone: "bg-[#e5f0e8] text-green-800",
     ribbon: "fill-green-800",
-    caption: "text-paper",
+    caption: "text-[#f6f5f2]",
   },
 ] as const;
 
@@ -170,7 +170,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
   return (
     <>
       {toast ? <Toast>{toast}</Toast> : null}
-      <div className="flex flex-col gap-6 rounded-3xl border border-line bg-white/70 p-6 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8">
+      <div className="flex flex-col gap-6 rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8 dark:shadow-none">
         {earned.length > 0 ? (
           <ul className="flex flex-wrap items-start justify-center gap-4">
             {earned.map((badge) => (
@@ -178,7 +178,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
             ))}
           </ul>
         ) : null}
-        <div className="relative h-[26rem] rounded-2xl border border-line bg-paper/80">
+        <div className="grid grid-cols-2 gap-3 rounded-2xl border border-line bg-paper/80 p-3 sm:relative sm:block sm:h-[26rem] sm:p-0">
           {stickers.map((sticker, index) => {
             const filled = placed.includes(sticker.id);
             const missed = wrong?.id === sticker.id;
@@ -187,7 +187,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
               <button
                 key={sticker.id}
                 type="button"
-                className={`absolute flex h-40 w-28 flex-col items-center justify-center gap-1 rounded-2xl border border-dashed px-2 py-3 transition ${layout[index]} ${missed ? "border-red-600 bg-red-600/5" : "border-ink/30"}`}
+                className={`flex min-h-36 flex-col items-center justify-center gap-1 rounded-2xl border border-dashed px-2 py-3 text-center transition sm:absolute sm:h-40 sm:w-28 sm:min-h-0 ${layout[index]} ${missed ? "border-red-600 bg-red-600/5 dark:border-red-400 dark:bg-red-400/10" : "border-ink/30 dark:border-ink/45"}`}
                 aria-label={`${sticker.label} outline`}
                 disabled={filled || Boolean(toast)}
                 onClick={() => drop(sticker.id)}
@@ -213,7 +213,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
               <button
                 key={sticker.id}
                 type="button"
-                className={`rounded-2xl transition duration-200 disabled:cursor-default ${active ? "-translate-y-1 ring-2 ring-ink ring-offset-2 ring-offset-white" : "hover:-translate-y-0.5"} ${used ? "opacity-25" : ""}`}
+                className={`rounded-2xl transition duration-200 disabled:cursor-default ${active ? "-translate-y-1 ring-2 ring-ink ring-offset-2 ring-offset-card" : "hover:-translate-y-0.5"} ${used ? "opacity-25" : ""}`}
                 aria-pressed={active}
                 aria-label={sticker.label}
                 disabled={used || Boolean(toast)}

@@ -96,7 +96,7 @@ export default function Badge({
 }) {
   const name = label.replace(" badge", "");
   const ghost =
-    "fill-transparent stroke-ink/30 stroke-[1.5] [stroke-dasharray:3_2.5]";
+    "fill-transparent stroke-ink/30 stroke-[1.5] [stroke-dasharray:3_2.5] dark:stroke-ink/55";
 
   return (
     <li
@@ -111,7 +111,7 @@ export default function Badge({
           className={
             earned
               ? `relative z-10 grid h-12 w-12 place-items-center rounded-full border-[3px] border-white shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] ${tone}`
-              : "relative z-10 grid h-12 w-12 place-items-center rounded-full border border-dashed border-ink/25 bg-transparent text-ink/30"
+              : "relative z-10 grid h-12 w-12 place-items-center rounded-full border border-dashed border-ink/25 bg-transparent text-ink/30 dark:border-ink/50 dark:text-ink/55"
           }
         >
           {earned ? (

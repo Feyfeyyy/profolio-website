@@ -84,7 +84,7 @@ export default function MovieQuiz({ onEarn }: { onEarn?: () => void }) {
   return (
     <>
     {toast ? <Toast>{toast}</Toast> : null}
-    <div className="flex items-center gap-6 rounded-3xl border border-line bg-white/70 p-6 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8">
+    <div className="flex flex-col items-center gap-6 rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:flex-row sm:p-8 dark:shadow-none">
       <Portrait />
       <div className="min-w-0 flex-1">
       <p className="text-xs tracking-wide text-ink/40 uppercase">
@@ -97,12 +97,12 @@ export default function MovieQuiz({ onEarn }: { onEarn?: () => void }) {
           const correct = index === question.answer;
           const tone =
             picked === null
-              ? "border-line text-ink hover:-translate-y-0.5 hover:border-ink/30"
+              ? "border-line text-ink hover:-translate-y-0.5 hover:border-ink/30 dark:bg-black/35"
               : correct
-                ? "border-green-700/30 bg-green-700/5 text-green-700"
+                ? "border-green-700/30 bg-green-700/5 text-green-700 dark:border-green-400/40 dark:bg-green-400/10 dark:text-green-300"
                 : selected
-                  ? "border-red-600/30 bg-red-600/5 text-red-600"
-                  : "border-line text-ink/35";
+                  ? "border-red-600/30 bg-red-600/5 text-red-600 dark:border-red-400/40 dark:bg-red-400/10 dark:text-red-300"
+                  : "border-line text-ink/35 dark:bg-black/20";
 
           return (
             <li key={choice}>
@@ -121,7 +121,7 @@ export default function MovieQuiz({ onEarn }: { onEarn?: () => void }) {
       {picked !== null ? (
         <button
           type="button"
-          className="mt-6 w-fit rounded-full border border-ink bg-ink px-5 py-2 text-sm font-medium text-paper transition duration-200 hover:-translate-y-0.5 hover:bg-transparent hover:text-ink"
+          className="mt-6 inline-flex min-h-11 w-fit items-center rounded-full border border-ink bg-ink px-5 text-sm font-medium text-paper transition duration-200 hover:-translate-y-0.5 hover:bg-transparent hover:text-ink"
           onClick={() =>
             step === questions.length - 1
               ? finish()
