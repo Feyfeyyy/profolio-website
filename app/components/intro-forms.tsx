@@ -15,7 +15,7 @@ export default function IntroForms() {
     event.preventDefault();
     const nextName = name.trim();
     if (!nextName) return;
-    setGreeting(`Hello there, ${nextName}.`);
+    setGreeting(`Hello There, ${nextName}!`);
     setName("");
   }
 
@@ -36,14 +36,14 @@ export default function IntroForms() {
       <div className="grid gap-10 lg:col-span-8 lg:grid-cols-2">
         <form className="flex flex-col gap-4" onSubmit={submitName}>
           <label className="text-sm text-ink/60" htmlFor="name">
-            What is your name?
+            What Is Your Name:
           </label>
           <input
             id="name"
             name="name"
             type="text"
             value={name}
-            placeholder="Your name"
+            placeholder="Enter your name"
             onChange={(event) => setName(event.target.value)}
             className={fieldClass}
           />
@@ -51,20 +51,20 @@ export default function IntroForms() {
             type="submit"
             className="w-fit text-sm font-medium underline decoration-ink/25 underline-offset-4 transition hover:decoration-ink"
           >
-            Send name
+            Submit
           </button>
           {greeting ? <p className="msg">{greeting}</p> : null}
         </form>
         <form className="flex flex-col gap-4" onSubmit={submitNote}>
           <label className="text-sm text-ink/60" htmlFor="info">
-            Tell me something
+            Tell me something:
           </label>
           <input
             id="info"
             name="info"
             type="text"
             value={note}
-            placeholder="A small detail"
+            placeholder="Enter here"
             onChange={(event) => setNote(event.target.value)}
             className={fieldClass}
           />
@@ -72,9 +72,11 @@ export default function IntroForms() {
             type="submit"
             className="w-fit text-sm font-medium underline decoration-ink/25 underline-offset-4 transition hover:decoration-ink"
           >
-            Send note
+            Submit
           </button>
-          {thanks ? <p className="msg">Thanks for telling me.</p> : null}
+          {thanks ? (
+            <p className="msg">Ohhh thanks for telling me! ;)</p>
+          ) : null}
         </form>
       </div>
     </section>
