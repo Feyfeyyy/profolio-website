@@ -18,7 +18,13 @@ const statements = [
 ];
 
 export default function TwoTruths() {
-  const [picked, setPicked] = useState<number | null>(null);
+  const [picked, setPicked] = useState<number[]>([]);
+
+  function mark(index: number) {
+    setPicked((current) =>
+      current.includes(index) ? current : [...current, index],
+    );
+  }
 
   return (
     <section className="card lg:grid lg:grid-cols-12 lg:gap-10">
@@ -37,11 +43,11 @@ export default function TwoTruths() {
       </div>
       <ul className="border-t border-line lg:col-span-8">
         {statements.map((statement, index) => {
-          const selected = picked === index;
+          const selected = picked.includes(index);
           const tone = selected
             ? statement.lie
-              ? "text-emerald-800"
-              : "text-ink/35 line-through"
+              ? "text-green-700"
+              : "text-red-600 line-through"
             : "text-ink hover:text-ink/70";
 
           return (
@@ -49,14 +55,14 @@ export default function TwoTruths() {
               <button
                 type="button"
                 className={`flex w-full items-baseline gap-4 py-5 text-left text-base leading-relaxed transition ${tone}`}
-                onClick={() => setPicked(index)}
+                onClick={() => mark(index)}
               >
                 <span className="w-6 shrink-0 text-xs text-ink/35">
                   0{index + 1}
                 </span>
                 <span>{statement.text}</span>
                 {selected && statement.lie ? (
-                  <span className="ml-auto shrink-0 text-xs tracking-wide text-emerald-700 uppercase">
+                  <span className="ml-auto shrink-0 text-xs tracking-wide text-green-700 uppercase no-underline">
                     Lie
                   </span>
                 ) : null}
