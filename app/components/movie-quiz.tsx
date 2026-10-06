@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import Toast from "./toast";
 
@@ -24,11 +25,15 @@ const questions = [
 function Portrait() {
   return (
     <figure className="w-28 shrink-0 sm:w-36">
-      <img
-        className="aspect-4/5 w-full rounded-2xl object-cover"
-        src="https://www.denofgeek.com/wp-content/uploads/2020/07/Inception-Ending-Explained.jpg"
-        alt="Inception"
-      />
+      <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+        <Image
+          src="https://www.denofgeek.com/wp-content/uploads/2020/07/Inception-Ending-Explained.jpg"
+          alt="Inception"
+          fill
+          sizes="(min-width: 640px) 9rem, 7rem"
+          className="object-cover"
+        />
+      </div>
       <figcaption className="mt-2 text-center text-xs tracking-wide text-ink/45 uppercase">
         Representation Image.
       </figcaption>
