@@ -43,20 +43,20 @@ export default function TwoTruths({ onEarn }: { onEarn?: () => void }) {
   return (
     <>
     {toast ? <Toast>Congratulations, you found the lie.</Toast> : null}
-    <ul className="flex flex-col gap-3 rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8 dark:shadow-none">
+    <ul className="flex flex-col gap-3 border border-line bg-card p-4 sm:p-8">
         {statements.map((statement, index) => {
           const selected = picked.includes(index);
           const tone = selected
             ? statement.lie
               ? "border-green-700/30 bg-green-700/5 text-green-700 dark:border-green-400/40 dark:bg-green-400/10 dark:text-green-300"
               : "border-red-600/30 bg-red-600/5 text-red-600 line-through dark:border-red-400/40 dark:bg-red-400/10 dark:text-red-300"
-            : "border-line text-ink hover:-translate-y-0.5 hover:border-ink/30 dark:bg-black/35";
+            : "border-line text-ink hover:border-accent dark:bg-black/35";
 
           return (
             <li key={statement.text}>
               <button
                 type="button"
-                className={`flex w-full items-baseline gap-4 rounded-2xl border px-4 py-4 text-left text-base leading-relaxed transition duration-200 ${tone}`}
+                className={`flex w-full items-baseline gap-4 border px-4 py-4 text-left text-base leading-relaxed transition-colors ${tone}`}
                 aria-pressed={selected}
                 onClick={() => mark(index)}
               >
@@ -65,7 +65,7 @@ export default function TwoTruths({ onEarn }: { onEarn?: () => void }) {
                 </span>
                 <span>{statement.text}</span>
                 {selected && statement.lie ? (
-                  <span className="ml-auto shrink-0 rounded-full bg-green-700 px-3 py-1 text-xs tracking-wide text-white uppercase no-underline">
+                  <span className="ml-auto shrink-0 bg-green-700 px-3 py-1 text-xs tracking-wide text-white uppercase no-underline">
                     Lie
                   </span>
                 ) : null}

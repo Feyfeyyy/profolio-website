@@ -26,7 +26,7 @@ export default function Toast({ children }: { children: string }) {
     <p
       ref={ref}
       role="status"
-      className="fixed top-6 right-6 z-20 rounded-full bg-ink px-5 py-3 text-sm text-paper opacity-0"
+      className="fixed top-[max(5.5rem,calc(env(safe-area-inset-top)+5rem))] right-[clamp(20px,4vw,48px)] z-[60] border border-line bg-ink px-[22px] py-3.5 font-mono text-[13px] text-paper opacity-0"
     >
       {children}
     </p>,

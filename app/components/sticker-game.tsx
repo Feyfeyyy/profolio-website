@@ -1,5 +1,9 @@
 "use client";
 
+import UilBuilding from "@iconscout/react-unicons/icons/uil-building";
+import UilClock from "@iconscout/react-unicons/icons/uil-clock";
+import UilShip from "@iconscout/react-unicons/icons/uil-ship";
+import UilTrafficLight from "@iconscout/react-unicons/icons/uil-traffic-light";
 import { useEffect, useState } from "react";
 import Badge from "./badge";
 import Toast from "./toast";
@@ -11,6 +15,7 @@ const stickers = [
     statement: "Tour guided 80 strangers here.",
     rotate: "-rotate-6",
     tone: "bg-[#efe8d8] text-[#141413]",
+    Icon: UilBuilding,
   },
   {
     id: "london",
@@ -18,6 +23,7 @@ const stickers = [
     statement: "Big Ben over a grey river.",
     rotate: "rotate-[5deg]",
     tone: "bg-[#f8e8e4] text-red-700",
+    Icon: UilClock,
   },
   {
     id: "tokyo",
@@ -25,6 +31,7 @@ const stickers = [
     statement: "A crossing that never stops.",
     rotate: "-rotate-3",
     tone: "bg-[#141413] text-[#f6f5f2]",
+    Icon: UilTrafficLight,
   },
   {
     id: "bangkok",
@@ -32,6 +39,7 @@ const stickers = [
     statement: "Boats on the Chao Phraya.",
     rotate: "rotate-[7deg]",
     tone: "bg-[#e5f0e8] text-green-800",
+    Icon: UilShip,
   },
 ] as const;
 
@@ -45,13 +53,6 @@ const places = [
 ] as const;
 
 const badges = [
-  {
-    id: "city",
-    label: "City badge",
-    tone: "bg-[#efe8d8] text-[#141413]",
-    ribbon: "fill-[#8d7048]",
-    caption: "text-[#f6f5f2]",
-  },
   {
     id: "navigator",
     label: "Navigator badge",
@@ -87,27 +88,17 @@ function shufflePlaces(current: readonly string[]) {
   return next;
 }
 
-function StickerArt() {
-  return (
-    <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden="true">
-      <path
-        className="fill-current"
-        d="M6 26V14h4v12H6Zm8 0V8h4v18h-4Zm8 0V12h4v14h-4Z"
-      />
-    </svg>
-  );
-}
-
 function StickerFace({
   label,
   rotate,
   tone,
+  Icon,
 }: (typeof stickers)[number]) {
   return (
     <span
-      className={`grid h-20 w-20 place-items-center gap-1 rounded-2xl border-2 border-white shadow-[0_10px_18px_-12px_rgba(20,20,19,0.8)] ${tone} ${rotate}`}
+      className={`grid h-20 w-20 place-items-center gap-1 border-2 border-white ${tone} ${rotate}`}
     >
-      <StickerArt />
+      <Icon size={28} color="currentColor" aria-hidden="true" />
       <span className="text-[10px] font-medium tracking-wide uppercase">
         {label}
       </span>
@@ -120,6 +111,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
   const [placed, setPlaced] = useState<StickerId[]>([]);
   const [layout, setLayout] = useState<string[]>([...places]);
   const [earned, setEarned] = useState<(typeof badges)[number][]>([]);
+  const [clears, setClears] = useState(0);
   const [wrong, setWrong] = useState<{ id: StickerId; at: number } | null>(
     null,
   );
@@ -158,7 +150,13 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
     setSelected(null);
     if (next.length !== stickers.length) return;
     onEarn?.();
-    const badge = badges[earned.length];
+    const round = clears + 1;
+    setClears(round);
+    if (round === 1) {
+      setToast("You earned the travel badge.");
+      return;
+    }
+    const badge = badges[round - 2];
     if (!badge) {
       setToast("You already earned every badge.");
       return;
@@ -170,7 +168,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
   return (
     <>
       {toast ? <Toast>{toast}</Toast> : null}
-      <div className="flex flex-col gap-6 rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8 dark:shadow-none">
+      <div className="flex flex-col gap-6 border border-line bg-card p-4 sm:p-8">
         {earned.length > 0 ? (
           <ul className="flex flex-wrap items-start justify-center gap-4">
             {earned.map((badge) => (
@@ -178,7 +176,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
             ))}
           </ul>
         ) : null}
-        <div className="grid grid-cols-2 gap-3 rounded-2xl border border-line bg-paper/80 p-3 sm:relative sm:block sm:h-[26rem] sm:p-0">
+        <div className="grid grid-cols-2 gap-3 border border-line bg-paper/80 p-3 sm:relative sm:block sm:h-[26rem] sm:p-0">
           {stickers.map((sticker, index) => {
             const filled = placed.includes(sticker.id);
             const missed = wrong?.id === sticker.id;
@@ -187,7 +185,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
               <button
                 key={sticker.id}
                 type="button"
-                className={`flex min-h-36 flex-col items-center justify-center gap-1 rounded-2xl border border-dashed px-2 py-3 text-center transition sm:absolute sm:h-40 sm:w-28 sm:min-h-0 ${layout[index]} ${missed ? "border-red-600 bg-red-600/5 dark:border-red-400 dark:bg-red-400/10" : "border-ink/30 dark:border-ink/45"}`}
+                className={`flex min-h-36 flex-col items-center justify-center gap-1 border border-dashed px-2 py-3 text-center transition-colors sm:absolute sm:h-40 sm:w-28 sm:min-h-0 ${layout[index]} ${missed ? "border-red-600 bg-red-600/5 dark:border-red-400 dark:bg-red-400/10" : "border-ink/30 dark:border-ink/45"}`}
                 aria-label={`${sticker.label} outline`}
                 disabled={filled || Boolean(toast)}
                 onClick={() => drop(sticker.id)}
@@ -213,7 +211,7 @@ export default function StickerGame({ onEarn }: { onEarn?: () => void }) {
               <button
                 key={sticker.id}
                 type="button"
-                className={`rounded-2xl transition duration-200 disabled:cursor-default ${active ? "-translate-y-1 ring-2 ring-ink ring-offset-2 ring-offset-card" : "hover:-translate-y-0.5"} ${used ? "opacity-25" : ""}`}
+                className={`transition-colors disabled:cursor-default ${active ? "ring-2 ring-ink ring-offset-2 ring-offset-card" : ""} ${used ? "opacity-25" : ""}`}
                 aria-pressed={active}
                 aria-label={sticker.label}
                 disabled={used || Boolean(toast)}

@@ -68,7 +68,7 @@ export default function RadioDial({ onEarn }: { onEarn?: () => void }) {
     <>
       {toast ? <Toast>You tuned every station.</Toast> : null}
       <form
-        className="rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8 dark:shadow-none"
+        className="border border-line bg-card p-4 sm:p-8"
         onSubmit={(event) => event.preventDefault()}
       >
         <div className="flex items-end justify-between gap-4">
@@ -78,10 +78,10 @@ export default function RadioDial({ onEarn }: { onEarn?: () => void }) {
           </p>
         </div>
         <div className="mt-4 flex h-5 items-end gap-1" aria-hidden="true">
-          <span className={`w-1 rounded-full bg-ink ${locked ? "h-2" : "h-1 opacity-30"}`} />
-          <span className={`w-1 rounded-full bg-ink ${locked ? "h-3" : "h-1 opacity-30"}`} />
-          <span className={`w-1 rounded-full bg-ink ${locked ? "h-4" : "h-1 opacity-30"}`} />
-          <span className={`w-1 rounded-full bg-ink ${locked ? "h-5" : "h-1 opacity-30"}`} />
+          <span className={`w-1 bg-ink ${locked ? "h-2" : "h-1 opacity-30"}`} />
+          <span className={`w-1 bg-ink ${locked ? "h-3" : "h-1 opacity-30"}`} />
+          <span className={`w-1 bg-ink ${locked ? "h-4" : "h-1 opacity-30"}`} />
+          <span className={`w-1 bg-ink ${locked ? "h-5" : "h-1 opacity-30"}`} />
         </div>
         <div className="mt-8 min-h-36">
           {locked ? (
@@ -95,7 +95,7 @@ export default function RadioDial({ onEarn }: { onEarn?: () => void }) {
               <p className="mt-1 text-sm text-ink/55">{locked.artist}</p>
               <iframe
                 key={locked.id}
-                className="mt-5 aspect-video w-full rounded-2xl border border-line"
+                className="mt-5 aspect-video w-full border border-line"
                 src={`https://www.youtube-nocookie.com/embed/${locked.video}?rel=0`}
                 title={`${locked.title} by ${locked.artist}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
