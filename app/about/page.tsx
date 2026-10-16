@@ -7,11 +7,20 @@ export const metadata = {
   title: "About me",
 };
 
-export default function AboutPage() {
+const plays = ["truths", "custom-inputs", "quiz", "stickers", "radio"];
+
+export default async function AboutPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ play?: string }>;
+}) {
+  const { play } = await searchParams;
+  const initialTab = plays.includes(play ?? "") ? play : undefined;
+
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-16 sm:px-6 sm:pb-20">
+      <main className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col px-[clamp(20px,4vw,48px)] pb-16">
         <section className="pt-2 pb-8 sm:pt-4 sm:pb-10">
           <Terminal path="~/about" scroll>
             <Command>cd ~/about</Command>
@@ -26,8 +35,8 @@ export default function AboutPage() {
             </p>
           </Terminal>
         </section>
-        <section className="pt-8 pb-16 lg:pt-10 lg:pb-20">
-          <AboutPlay />
+        <section id="forms" className="scroll-mt-24 pt-8 pb-16 lg:pt-10 lg:pb-20">
+          <AboutPlay initialTab={initialTab} />
         </section>
       </main>
       <SiteFooter />

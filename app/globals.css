@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-exo);
-  --font-display: var(--font-pacifico);
-  --font-footer: var(--font-honk);
+  --font-sans: var(--font-grotesk), Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --animate-rise: rise 0.45s ease both;
   --animate-flick: flick 0.35s ease both;
   --animate-toast: toast 0.45s ease both;
@@ -83,21 +82,53 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-paper: #f6f5f2;
-  --color-ink: #141413;
-  --color-line: #e4e1db;
-  --color-card: #ffffff;
+  --color-paper: #f3f1ec;
+  --color-ink: #16150f;
+  --color-muted: #6b6860;
+  --color-line: #ddd9d0;
+  --color-card: #ece9e2;
+  --color-accent: #2f6fed;
 }
 
 .dark {
-  --color-paper: #161615;
-  --color-ink: #f3f1ea;
-  --color-line: #4a4843;
-  --color-card: #262624;
+  --color-paper: #121210;
+  --color-ink: #edebe5;
+  --color-muted: #9a978e;
+  --color-line: #2a2925;
+  --color-card: #1a1a17;
+  --color-accent: #2f6fed;
   color-scheme: dark;
 }
 
 @layer base {
+  html {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  body {
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-accent);
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-ink);
     outline-offset: 2px;

@@ -4,50 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import ScrollProgress from "./scroll-progress";
 
 const links = [
   { href: "/projects", label: "Projects" },
-  { href: "/about", label: "About me" },
+  { href: "/about", label: "About" },
 ];
 
-const mobileLinks = [{ href: "/", label: "Home" }, ...links];
-
-function MenuIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="h-5 w-5 fill-none stroke-current stroke-2 [stroke-linecap:round]"
-    >
-      <path d="M4 7h16M4 12h16M4 17h16" />
-    </svg>
-  );
-}
-
-function MoonIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="h-5 w-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]"
-    >
-      <path d="M20 14.5A7.5 7.5 0 0 1 9.5 4 6.5 6.5 0 1 0 20 14.5Z" />
-    </svg>
-  );
-}
-
-function SunIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="h-5 w-5 fill-none stroke-current stroke-2 [stroke-linecap:round]"
-    >
-      <circle cx="12" cy="12" r="3.5" />
-      <path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18" />
-    </svg>
-  );
-}
+const menuLinks = [{ href: "/", label: "Home" }, ...links];
 
 function ThemeToggle({
   dark,
@@ -61,25 +25,13 @@ function ThemeToggle({
   return (
     <button
       type="button"
-      className={`h-11 w-11 items-center justify-center rounded-full border border-line text-ink ${className}`}
+      className={`min-h-11 items-center gap-2 border border-line px-2.5 font-mono text-xs ${className}`}
       aria-pressed={dark}
-      aria-label={dark ? "Switch to light" : "Switch to dark"}
       onClick={onToggle}
     >
-      {dark ? <SunIcon /> : <MoonIcon />}
+      <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
+      {dark ? "Light" : "Dark"}
     </button>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="h-5 w-5 fill-none stroke-current stroke-2 [stroke-linecap:round]"
-    >
-      <path d="M6 6 18 18M18 6 6 18" />
-    </svg>
   );
 }
 
@@ -97,14 +49,12 @@ function MobileMenu({
   onClose: () => void;
 }) {
   const [rendered, setRendered] = useState(false);
-  const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
 
   const ref = useCallback((node: HTMLDivElement | null) => {
     panelRef.current = node;
     if (!node) return;
     node.style.transform = "translateX(100%)";
-    closeRef.current?.focus();
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         node.classList.add("animate-drawer");
@@ -159,36 +109,26 @@ function MobileMenu({
       role="dialog"
       aria-modal="true"
       aria-label="Menu"
-      className="fixed inset-0 z-40 flex flex-col bg-paper px-4 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:hidden"
+      className="fixed inset-0 z-40 flex flex-col bg-paper px-[clamp(20px,4vw,48px)] pt-[max(6.5rem,calc(env(safe-area-inset-top)+5rem))] pb-[max(1.5rem,env(safe-area-inset-bottom))]"
     >
-      <div className="flex justify-end">
-        <button
-          ref={closeRef}
-          type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink"
-          aria-label="Close menu"
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </button>
-      </div>
-      <nav aria-label="Pages" className="mt-12 flex flex-col">
-        {mobileLinks.map((link) => {
+      <nav aria-label="Pages" className="mx-auto flex w-full max-w-[1200px] flex-col">
+        {menuLinks.map((link, index) => {
           const current = pathname === link.href;
 
           return (
             <Link
               key={link.href}
               href={link.href}
-              className={
-                current
-                  ? "inline-flex min-h-16 items-center text-3xl font-medium tracking-tight text-ink"
-                  : "inline-flex min-h-16 items-center text-3xl font-medium tracking-tight text-ink/45"
-              }
+              className="flex min-h-16 items-baseline gap-4 border-b border-line py-4 transition-[padding,color] hover:pl-3 hover:text-accent"
               aria-current={current ? "page" : undefined}
               onClick={onClose}
             >
-              {link.label}
+              <span className="font-mono text-[13px] text-accent">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="text-[clamp(30px,8vw,48px)] leading-none font-bold tracking-[-0.03em]">
+                {link.label}
+              </span>
             </Link>
           );
         })}
@@ -203,9 +143,8 @@ function MobileMenu({
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const home = pathname === "/";
   const [open, setOpen] = useState(false);
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
 
   useEffect(() => {
     setDark(document.documentElement.classList.contains("dark"));
@@ -227,28 +166,31 @@ export default function SiteHeader() {
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") setOpen(false);
     }
-    const media = window.matchMedia("(min-width: 640px)");
-    function onWide() {
-      if (media.matches) setOpen(false);
-    }
     window.addEventListener("keydown", onKey);
-    media.addEventListener("change", onWide);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      media.removeEventListener("change", onWide);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 640px)");
+    function closeIfWide() {
+      if (media.matches) setOpen(false);
+    }
+    media.addEventListener("change", closeIfWide);
+    return () => media.removeEventListener("change", closeIfWide);
+  }, []);
+
   return (
-    <header className="mx-auto w-full max-w-6xl px-4 pt-[max(1.5rem,env(safe-area-inset-top))] pb-3 text-sm sm:px-6">
-      <div className={`flex items-center ${home ? "justify-end" : "justify-between"}`}>
-        {home ? null : (
-          <Link href="/" className="inline-flex min-h-11 items-center font-medium">
-            Feyaaz Chishty
-          </Link>
-        )}
-        <div className="flex items-center gap-3 sm:gap-6">
-          <nav className="hidden items-center gap-6 sm:flex" aria-label="Pages">
+    <header className="sticky top-0 z-50 border-b border-line bg-paper">
+      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-x-[clamp(14px,2.4vw,28px)] px-[clamp(20px,4vw,48px)] py-4">
+        <Link href="/" className="inline-flex min-h-11 items-center gap-3 font-bold">
+          <span className="h-2.5 w-2.5 bg-accent" aria-hidden="true" />
+          Feyaaz Chishty
+        </Link>
+        <div className="flex items-center gap-[clamp(14px,2.4vw,28px)]">
+          <nav
+            className="hidden items-center gap-[clamp(14px,2.4vw,28px)] font-mono text-[13px] text-muted sm:flex"
+            aria-label="Pages"
+          >
             {links.map((link) => {
               const current = pathname === link.href;
 
@@ -256,11 +198,7 @@ export default function SiteHeader() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={
-                    current
-                      ? "inline-flex min-h-11 items-center text-ink"
-                      : "inline-flex min-h-11 items-center text-ink/45 underline decoration-ink/20 underline-offset-4 transition hover:text-ink hover:decoration-ink"
-                  }
+                  className="inline-flex min-h-11 items-center"
                   aria-current={current ? "page" : undefined}
                 >
                   {link.label}
@@ -268,19 +206,19 @@ export default function SiteHeader() {
               );
             })}
           </nav>
+          <ThemeToggle dark={dark} onToggle={toggleTheme} className="hidden sm:inline-flex" />
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink sm:hidden"
+            className="inline-flex min-h-11 items-center border border-line px-2.5 font-mono text-xs sm:hidden"
             aria-expanded={open}
             aria-controls="site-menu"
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
+            onClick={() => setOpen((value) => !value)}
           >
-            <MenuIcon />
+            {open ? "Close" : "Menu"}
           </button>
-          <ThemeToggle dark={dark} onToggle={toggleTheme} className="hidden sm:inline-flex" />
         </div>
       </div>
+      <ScrollProgress />
       <MobileMenu
         open={open}
         pathname={pathname}

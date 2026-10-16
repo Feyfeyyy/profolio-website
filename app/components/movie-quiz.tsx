@@ -25,7 +25,7 @@ const questions = [
 function Portrait() {
   return (
     <figure className="w-28 shrink-0 sm:w-36">
-      <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+      <div className="relative aspect-4/5 w-full overflow-hidden">
         <Image
           src="https://www.denofgeek.com/wp-content/uploads/2020/07/Inception-Ending-Explained.jpg"
           alt="Inception"
@@ -84,7 +84,7 @@ export default function MovieQuiz({ onEarn }: { onEarn?: () => void }) {
   return (
     <>
     {toast ? <Toast>{toast}</Toast> : null}
-    <div className="flex flex-col items-center gap-6 rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:flex-row sm:p-8 dark:shadow-none">
+    <div className="flex flex-col items-center gap-6 border border-line bg-card p-4 sm:flex-row sm:p-8">
       <Portrait />
       <div className="min-w-0 flex-1">
       <p className="text-xs tracking-wide text-ink/40 uppercase">
@@ -97,7 +97,7 @@ export default function MovieQuiz({ onEarn }: { onEarn?: () => void }) {
           const correct = index === question.answer;
           const tone =
             picked === null
-              ? "border-line text-ink hover:-translate-y-0.5 hover:border-ink/30 dark:bg-black/35"
+              ? "border-line text-ink hover:border-accent dark:bg-black/35"
               : correct
                 ? "border-green-700/30 bg-green-700/5 text-green-700 dark:border-green-400/40 dark:bg-green-400/10 dark:text-green-300"
                 : selected
@@ -108,7 +108,7 @@ export default function MovieQuiz({ onEarn }: { onEarn?: () => void }) {
             <li key={choice}>
               <button
                 type="button"
-                className={`w-full rounded-2xl border px-4 py-4 text-left text-base transition duration-200 ${tone}`}
+                className={`w-full border px-4 py-4 text-left text-base transition-colors ${tone}`}
                 onClick={() => choose(index)}
                 disabled={picked !== null}
               >
@@ -121,7 +121,7 @@ export default function MovieQuiz({ onEarn }: { onEarn?: () => void }) {
       {picked !== null ? (
         <button
           type="button"
-          className="mt-6 inline-flex min-h-11 w-fit items-center rounded-full border border-ink bg-ink px-5 text-sm font-medium text-paper transition duration-200 hover:-translate-y-0.5 hover:bg-transparent hover:text-ink"
+          className="mt-6 inline-flex min-h-11 w-fit items-center border border-ink bg-ink px-[22px] text-[15px] font-semibold text-paper transition-colors hover:border-accent hover:bg-accent hover:text-white"
           onClick={() =>
             step === questions.length - 1
               ? finish()

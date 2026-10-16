@@ -58,8 +58,12 @@ const formBadges = [
 
 type FormBadgeId = (typeof formBadges)[number]["id"];
 
-export default function AboutPlay() {
-  const [tab, setTab] = useState<TabId>("truths");
+function isTab(value: string | undefined): value is TabId {
+  return tabs.some((item) => item.id === value);
+}
+
+export default function AboutPlay({ initialTab }: { initialTab?: string }) {
+  const [tab, setTab] = useState<TabId>(isTab(initialTab) ? initialTab : "truths");
   const [earned, setEarned] = useState<FormBadgeId[]>([]);
 
   function award(id: FormBadgeId) {
@@ -69,7 +73,7 @@ export default function AboutPlay() {
   return (
     <div>
     <div
-      className={`mb-10 rounded-3xl px-4 py-6 sm:mb-16 sm:px-10 sm:py-8 ${earned.length === 0 ? "border border-dashed border-ink/15 bg-transparent dark:border-ink/40" : "border border-line bg-card shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] dark:shadow-none"}`}
+      className={`mb-10 px-4 py-6 sm:mb-16 sm:px-10 sm:py-8 ${earned.length === 0 ? "border border-dashed border-ink/15 bg-transparent dark:border-ink/40" : "border border-line bg-card"}`}
     >
       <div className={`mb-6 flex items-baseline justify-between border-b pb-4 ${earned.length === 0 ? "border-dashed border-ink/15 dark:border-ink/40" : "border-line"}`}>
         <p className="text-xs font-medium tracking-[0.22em] text-ink/45 uppercase">
@@ -85,7 +89,7 @@ export default function AboutPlay() {
             key={badge.id}
             {...badge}
             earned={earned.includes(badge.id)}
-            className="origin-center transition duration-200 [@media(hover:hover)]:group-hover/medals:opacity-40 hover:z-10 hover:-translate-y-1 hover:scale-110 [@media(hover:hover)]:hover:!opacity-100 hover:drop-shadow-[0_16px_18px_rgba(20,20,19,0.18)]"
+            className="origin-center transition-opacity duration-200 [@media(hover:hover)]:group-hover/medals:opacity-40 hover:z-10 [@media(hover:hover)]:hover:!opacity-100"
           />
         ))}
       </ul>
@@ -138,10 +142,15 @@ export default function AboutPlay() {
               aria-controls={`play-panel-${item.id}`}
               className={
                 selected
-                  ? "inline-flex min-h-11 items-center rounded-full bg-ink px-4 text-sm font-medium text-paper"
-                  : "inline-flex min-h-11 items-center rounded-full px-4 text-sm text-ink/45 transition hover:text-ink"
+                  ? "inline-flex min-h-11 items-center bg-ink px-4 text-[15px] font-semibold text-paper"
+                  : "inline-flex min-h-11 items-center border border-line px-4 text-[15px] text-muted transition-colors hover:border-accent"
               }
-              onClick={() => setTab(item.id)}
+              onClick={() => {
+                setTab(item.id);
+                const url = new URL(window.location.href);
+                url.searchParams.set("play", item.id);
+                window.history.replaceState(null, "", url);
+              }}
             >
               {item.label}
             </button>

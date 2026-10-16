@@ -13,7 +13,7 @@ const fieldClass =
   "min-h-12 w-full border-b border-line bg-transparent py-3 text-lg transition placeholder:text-ink/30 focus:border-ink";
 
 const buttonClass =
-  "mt-1 inline-flex min-h-11 w-fit items-center rounded-full border border-ink bg-ink px-5 text-sm font-medium text-paper transition duration-200 hover:-translate-y-0.5 hover:bg-transparent hover:text-ink";
+  "mt-1 inline-flex min-h-11 w-fit items-center border border-ink bg-ink px-[22px] py-3.5 text-[15px] font-semibold text-paper transition-colors hover:border-accent hover:bg-accent hover:text-white";
 
 function Reply({ children }: { children: string }) {
   return (
@@ -48,7 +48,7 @@ export default function IntroForms({ onEarn }: { onEarn?: () => void }) {
   }
 
   return (
-    <div className="rounded-3xl border border-line bg-card p-4 shadow-[0_20px_40px_-28px_rgba(20,20,19,0.45)] sm:p-8 dark:shadow-none">
+    <div className="border border-line bg-card p-4 sm:p-8">
         <div role="tablist" aria-label="Custom inputs" className="flex gap-2">
           {tabs.map((item) => {
             const selected = tab === item.id;
@@ -63,8 +63,8 @@ export default function IntroForms({ onEarn }: { onEarn?: () => void }) {
                 aria-controls={`panel-${item.id}`}
                 className={
                   selected
-                    ? "inline-flex min-h-11 items-center rounded-full bg-ink px-4 text-sm font-medium text-paper"
-                    : "inline-flex min-h-11 items-center rounded-full px-4 text-sm text-ink/45 transition hover:text-ink"
+                    ? "inline-flex min-h-11 items-center bg-ink px-4 text-[15px] font-semibold text-paper"
+                    : "inline-flex min-h-11 items-center border border-line px-4 text-[15px] text-muted transition-colors hover:border-accent"
                 }
                 onClick={() => setTab(item.id)}
               >
